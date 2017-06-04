@@ -1,7 +1,6 @@
 #ifndef KEYCONSTANTS_H
 #define KEYCONSTANTS_H
-
-#include <map>    //Like an array except that every value has a key element como un ID.
+#include <map>    //Like an array except that every value has a key element como un ID. c++11
 #include <string>
 
 class KeyPair
@@ -18,7 +17,8 @@ class Keys //store a map of keys that came from the system and we will translate
         static std::map<int, KeyPair> KEYS;
 
 };
-map<int, KeyPair> KEYS = {
+
+std::map<int, KeyPair> Keys::KEYS = {
     {0xC1, {"[VK_ABNT_C1]", "[Abnt C1]"}},
     {0xC2, {"[VK_ABNT_C2]", "[Abnt C2]"}},
     {0x6B, {"[VK_ADD]", "[Numpad +]"}},
