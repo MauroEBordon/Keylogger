@@ -1,4 +1,4 @@
-#ifndef KEYCONSTANTS_H
+#ifndef KEYCONSTANTS_H // guard up
 #define KEYCONSTANTS_H
 #include <map>    //Like an array except that every value has a key element como un ID. c++11
 #include <string>

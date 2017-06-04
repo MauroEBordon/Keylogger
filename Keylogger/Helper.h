@@ -1,11 +1,11 @@
-#ifndef HELPER_H
+#ifndef HELPER_H // guard up
 #define HELPER_H
 
 #include <ctime>
 #include <string>
 #include <sstream>
 
-namespace Helper;
+namespace Helper
 {
     template<class T>
 
@@ -72,6 +72,7 @@ namespace Helper;
     {
         std::ofstream file("AppLog.txt", std::ios::app); //ios input output stream, app append(modify, change).
         file << "[" << Helper::DateTime.GetDateTimeString() << "]" << "\n" << s << std::endl << "\n";
+        file.close();
     }
 }
 
