@@ -4,12 +4,13 @@
 #include <ctime>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 namespace Helper
 {
     template<class T>
 
-    std::string ToString(const T &)  //everything passed will be converted to a string
+    std::string ToString(const T &);  //everything passed will be converted to a string
 
     struct DateTime
     {
