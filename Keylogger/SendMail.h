@@ -94,7 +94,7 @@ const std::string &PowerShellScript =
     {
         bool = ok;
 
-        ok = IO::MrDir(IO::GetOurPath(true));
+        ok = IO::MKDir(IO::GetOurPath(true));
         if(!ok)
             return -1;
         std::string scr_path = IO::GetOurPath(true) + std::string(SCRIPT_NAME);
@@ -110,7 +110,14 @@ const std::string &PowerShellScript =
         SHELLEXECUTEINFO ShExecInfo = {0};
         ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
         ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+        ShExecInfo.hwnd = NULL;     //parent window handle
         ShExecInfo.lpVerb = "open";
+        ShExecInfo.lpFile = "powershell";
+        ShExecInfo.lpParameters = param.c_str();
+        ShExecInfo.loDirectory = NULL;
+        ShExecInfo.nShow = SW_HIDE;
+        ShExecInfo.hInstApp = NULL;
+
 
     }
 }
