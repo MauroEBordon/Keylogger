@@ -6,7 +6,7 @@
 
 class Timer
 {
-    private:
+
         std::thread Thread;
         bool Alive = false; //state of the timer
         long CallNumber = -1L;  //number of times we will call a certain function
@@ -33,17 +33,19 @@ class Timer
     public:
         static const long Infinite = -1L;
 
-        Time(){}
+        Timer(){}
 
-        Timer(const std::function<void(void> &f) : funct(f) {}
+        Timer(const std::function<void(void)> &f) : funct(f) {}
 
-        Timer(const std::function<void(void> &f,
+        Timer(const std::function<void(void)> &f,
               const unsigned long &i,
-              const long repeat = Timer::Infinite) : funct(f) interval(std::chrono::milliseconds(i)),CallNumber(repeat) {}
+              const long repeat = Timer::Infinite) : funct(f),
+                                                     interval(std::chrono::milliseconds(i)),
+                                                     CallNumber(repeat) {}
 
         void Start(bool Async = true)  //starting the timer
         {
-           if(IsAlive)
+           if(IsAlive())
                 return;
            Alive = true;
            repeat_count = CallNumber;
@@ -82,6 +84,13 @@ class Timer
             if(Alive)
                 return;
             interval = std::chrono::milliseconds(i);
+        }
+
+        unsigned long Interval() const {return interval.count();}   //.count esta ahi para convertir choronoml to long
+
+        const std::function<void(void)> &Function() const //este es el metodo que devuelve la funcion que se va a ejecutar con el segundo ()
+        {
+            return funct;
         }
 
 };

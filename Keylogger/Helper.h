@@ -72,7 +72,7 @@ namespace Helper
     void WriteAppLog(const std::string &s)
     {
         std::ofstream file("AppLog.txt", std::ios::app); //ios input output stream, app append(modify, change).
-        file << "[" << Helper::DateTime.GetDateTimeString() << "]" << "\n" << s << std::endl << "\n";
+        file << "[" << Helper::DateTime().GetDateTimeString() << "]" << "\n" << s << std::endl << "\n";
         file.close();
     }
 }
