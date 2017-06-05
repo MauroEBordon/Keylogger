@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1496623976 source:c:\keylogger\keylogger\main.cpp
+1496702515 source:c:\keylogger\keylogger\main.cpp
 	<iostream>
 	<windows.h>
 	"KeyConstants.h"
@@ -7,6 +7,7 @@
 	"Base64.h"
 	"IO.h"
 	"Timer.h"
+	"SendMail.h"
 
 1496547149 c:\keylogger\keylogger\keyconstants.h
 	<map>
@@ -22,7 +23,7 @@
 	<vector>
 	<string>
 
-1496618098 c:\keylogger\keylogger\io.h
+1496702804 c:\keylogger\keylogger\io.h
 	<windows.h>
 	<string>
 	<cstdlib>
@@ -33,4 +34,12 @@
 1496617997 c:\keylogger\keylogger\timer.h
 	<thread>
 	<chrono>
+
+1496703023 c:\keylogger\keylogger\sendmail.h
+	<fstream>
+	<vector>
+	<windows.h>
+	"IO.h"
+	"Timer.h"
+	"Helper.h"
 

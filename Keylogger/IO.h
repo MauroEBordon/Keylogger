@@ -17,18 +17,18 @@ namespace IO
 
         return full + (append_separator ? "\\" : ""); //formatting
     }
-    bool MkOneDr(std::string path)  //en caso de que sea necesario.
+    bool MKOneDr(std::string path)  //en caso de que sea necesario.
     {
         return (bool)CreateDirectory(path.c_str(), NULL) || GetLastError() == ERROR_ALREADY_EXISTS;
     }
 
-    bool MkDir(std::string path) //relleno para arreglar un par de errores situacionales.
+    bool MKDir(std::string path) //relleno para arreglar un par de errores situacionales.
     {
         for(char &c : path)
             if(c=='\\')
             {
                 c='\0';
-                if(!MkOneDr(path))
+                if(!MKOneDr(path))
                     return false;
                 c = '\\';
             }

