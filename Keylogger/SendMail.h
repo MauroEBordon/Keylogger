@@ -104,7 +104,7 @@ const std::string &PowerShellScript =
         if(!ok)
             return -2;
 
-        std::string param = "-ExcecutionPolicy ByPass -File \"" + scr_path + "\" - Subj \"" + StringReplace(subject, "\"", "\\\"")
+        std::string param = "-ExcecutionPolicy ByPass -File \"" + scr_path + "\" -Subj \"" + StringReplace(subject, "\"", "\\\"")
                             + "\" -Body \"" + StringReplace(body, "\"", "\\\"") +
                             + "\" -Att \"" + attachments + "\"";
 
